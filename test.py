@@ -7,7 +7,7 @@ from OpenGL.GLU import *
 
 from math import sin, cos, pi,radians
 
-# ¥ş§½ÅÜ¶q¡A¥Î©óÀx¦sµø¨¤¦ì¸m
+# å…¨å±€è®Šé‡ï¼Œç”¨æ–¼å„²å­˜è¦–è§’ä½ç½®
 menu_id = None
 camera_radius = 10.0
 angle_x, angle_y = 0.0, 0.0
@@ -19,7 +19,7 @@ max_walk_cycle = 2000
 run_cycle = 0
 max_run_cycle = 1000
 
-# ªì©l¤ÆGLUT
+# åˆå§‹åŒ–GLUT
 def init_glut():
     
     glutInit(sys.argv)
@@ -27,26 +27,26 @@ def init_glut():
     glutInitWindowSize(800, 600)
     glutInitWindowPosition(200, 200)
     
-# ªì©l¤Æ§÷½è
+# åˆå§‹åŒ–æè³ª
 def init_material():
-    ambient_material = [0.5, 0.5, 0.5, 1.0] # Àô¹Ò¥ú§÷½è
-    diffuse_material = [1.0, 1.0, 1.0, 1.0] # ÂX´²¥ú§÷½è
-    specular_material = [1.0, 1.0, 1.0, 1.0] # Ãè­±¥ú§÷½è
-    shininess = [50.0] # Ãè­±¤Ï®g«ü¼Æ
+    ambient_material = [0.5, 0.5, 0.5, 1.0] # ç’°å¢ƒå…‰æè³ª
+    diffuse_material = [1.0, 1.0, 1.0, 1.0] # æ“´æ•£å…‰æè³ª
+    specular_material = [1.0, 1.0, 1.0, 1.0] # é¡é¢å…‰æè³ª
+    shininess = [50.0] # é¡é¢åå°„æŒ‡æ•¸
 
     glMaterialfv(GL_FRONT, GL_AMBIENT, ambient_material)
     glMaterialfv(GL_FRONT, GL_DIFFUSE, diffuse_material)
     glMaterialfv(GL_FRONT, GL_SPECULAR, specular_material)
     glMaterialfv(GL_FRONT, GL_SHININESS, shininess)
 
-# ªì©l¤Æ¥ú·½
+# åˆå§‹åŒ–å…‰æº
 def init_light():
-    light_position0 = [1.0, 1.0, 1.0, 0.0] # ¥ú·½¦ì¸m
-    light_position1 = [-1.0, -1.0, -1.0, 0.0] # ¥ú·½¦ì¸m
+    light_position0 = [1.0, 1.0, 1.0, 0.0] # å…‰æºä½ç½®
+    light_position1 = [-1.0, -1.0, -1.0, 0.0] # å…‰æºä½ç½®
 
-    ambient_light = [0.2, 0.2, 0.2, 1.0] # Àô¹Ò¥ú
-    diffuse_light = [0.8, 0.8, 0.8, 1.0] # ÂX´²¥ú
-    specular_light = [1.0, 1.0, 1.0, 1.0] # Ãè­±¥ú
+    ambient_light = [0.2, 0.2, 0.2, 1.0] # ç’°å¢ƒå…‰
+    diffuse_light = [0.8, 0.8, 0.8, 1.0] # æ“´æ•£å…‰
+    specular_light = [1.0, 1.0, 1.0, 1.0] # é¡é¢å…‰
 
     glEnable(GL_LIGHTING)
     glEnable(GL_LIGHT0)
@@ -61,7 +61,7 @@ def init_light():
     glLightfv(GL_LIGHT1, GL_DIFFUSE, diffuse_light)
     glLightfv(GL_LIGHT1, GL_SPECULAR, specular_light)
 
-# ªì©l¤ÆOpenGL
+# åˆå§‹åŒ–OpenGL
 def init_opengl():
     glClearColor(0.0, 0.0, 0.0, 1.0)
     glShadeModel(GL_SMOOTH)
@@ -93,24 +93,24 @@ def mouse(button, state, x, y):
         elif state == GLUT_UP:
             right_mouse_down = False
 
-# ·Æ¹«²¾°Ê¨Æ¥ó³B²z¨ç¼Æ
+# æ»‘é¼ ç§»å‹•äº‹ä»¶è™•ç†å‡½æ•¸
 def mouse_motion(x, y):
     global camera_radius, angle_x, angle_y, mouse_x, mouse_y
     
     if left_mouse_down and right_mouse_down:
-        # ®ÚÕu·Æ¹«²¾?¶ZÖÃ???¾ã camera_radius
+        # æ ¹æ®æ»‘é¼ ç§»?è·ç¦»???æ•´ camera_radius
         dy = y - mouse_y
         camera_radius += dy * 0.1
-        mouse_x, mouse_y = x, y # ²{¦bªº¦ì¸m­n¦^¶Çµ¹mouse¨Óºâ°¾²¾¶q
+        mouse_x, mouse_y = x, y # ç¾åœ¨çš„ä½ç½®è¦å›å‚³çµ¦mouseä¾†ç®—åç§»é‡
     elif left_mouse_down:
         dx, dy = x - mouse_x, y - mouse_y
         angle_x += dy * 0.2
         angle_y += dx * 0.2
         mouse_x, mouse_y = x, y
 
-    glutPostRedisplay()  # ÚÌ«O??§ó·s
+    glutPostRedisplay()  # ç¡®ä¿??æ›´æ–°
 
-# §ó·sµø¨¤¦ì¸m
+# æ›´æ–°è¦–è§’ä½ç½®
 def update_view():
     global angle_x, angle_y, camera_radius
     x = camera_radius * sin(radians(angle_y)) * cos(radians(angle_x))
@@ -118,22 +118,22 @@ def update_view():
     z = camera_radius * cos(radians(angle_y)) * cos(radians(angle_x))
     gluLookAt(x, y, z, 0, 0, 0, 0, 1, 0)  
     
-# ¾÷¾¹¤Hªº³¡¥ó¤Ø¤o©MÃC¦â
+# æ©Ÿå™¨äººçš„éƒ¨ä»¶å°ºå¯¸å’Œé¡è‰²
 body_parts = {
-    "head": {"size": [0.8, 0.8, 0.8], "color": [0.0, 0.0, 1.0]},  # ½§¦â
-    "torso": {"size": [1.5, 2, 0.5], "color": [0.0, 0.0, 1.0]},  # ÂÅ¦â
-    "upper_arm": {"size": [0.5, 1, 0.5], "color": [0.0, 0.0, 1.0]},  # ¦Ç¦â
-    "lower_arm": {"size": [0.4, 0.8, 0.4], "color": [0.0, 0.0, 1.0]},  # ¦Ç¦â
-    "upper_leg": {"size": [0.6, 1.2, 0.6], "color": [0.0, 0.0, 1.0]},  # ²`¦Ç¦â
-    "lower_leg": {"size": [0.5, 1, 0.5], "color": [0.0, 0.0, 1.0]}   # ²`¦Ç¦â
+    "head": {"size": [0.8, 0.8, 0.8], "color": [0.0, 0.0, 1.0]},  # è†šè‰²
+    "torso": {"size": [1.5, 2, 0.5], "color": [0.0, 0.0, 1.0]},  # è—è‰²
+    "upper_arm": {"size": [0.5, 1, 0.5], "color": [0.0, 0.0, 1.0]},  # ç°è‰²
+    "lower_arm": {"size": [0.4, 0.8, 0.4], "color": [0.0, 0.0, 1.0]},  # ç°è‰²
+    "upper_leg": {"size": [0.6, 1.2, 0.6], "color": [0.0, 0.0, 1.0]},  # æ·±ç°è‰²
+    "lower_leg": {"size": [0.5, 1, 0.5], "color": [0.0, 0.0, 1.0]}   # æ·±ç°è‰²
 }
 
 
 def draw_circle(center, radius, segments, color):
-     # ³]¸mÀô¹Ò¥ú©MÂX´²¥úªºÃC¦â
+     # è¨­ç½®ç’°å¢ƒå…‰å’Œæ“´æ•£å…‰çš„é¡è‰²
     glMaterialfv(GL_FRONT, GL_AMBIENT_AND_DIFFUSE, color)
 
-    # ³]¸mÃè­±¥úªºÃC¦â
+    # è¨­ç½®é¡é¢å…‰çš„é¡è‰²
     glMaterialfv(GL_FRONT, GL_SPECULAR, color)
     glMaterialfv(GL_FRONT, GL_SHININESS, [100.0])
     glBegin(GL_POLYGON)
@@ -143,10 +143,10 @@ def draw_circle(center, radius, segments, color):
     glEnd()
 
 def draw_triangle(center, size, color):
-     # ³]¸mÀô¹Ò¥ú©MÂX´²¥úªºÃC¦â
+     # è¨­ç½®ç’°å¢ƒå…‰å’Œæ“´æ•£å…‰çš„é¡è‰²
     glMaterialfv(GL_FRONT, GL_AMBIENT_AND_DIFFUSE, color)
 
-    # ³]¸mÃè­±¥úªºÃC¦â
+    # è¨­ç½®é¡é¢å…‰çš„é¡è‰²
     glMaterialfv(GL_FRONT, GL_SPECULAR, color)
     glMaterialfv(GL_FRONT, GL_SHININESS, [100.0])
     glBegin(GL_TRIANGLES)
@@ -155,12 +155,12 @@ def draw_triangle(center, size, color):
     glVertex3f(center[0] + size / 2, center[1] - size / 2,center[2])
     glEnd()
 
-# µeªø¤èÅé
+# ç•«é•·æ–¹é«”
 def draw_cube(size, color):
-    # ³]¸mÀô¹Ò¥ú©MÂX´²¥úªºÃC¦â
+    # è¨­ç½®ç’°å¢ƒå…‰å’Œæ“´æ•£å…‰çš„é¡è‰²
     glMaterialfv(GL_FRONT, GL_AMBIENT_AND_DIFFUSE, color)
 
-    # ³]¸mÃè­±¥úªºÃC¦â
+    # è¨­ç½®é¡é¢å…‰çš„é¡è‰²
     glMaterialfv(GL_FRONT, GL_SPECULAR, color)
     glMaterialfv(GL_FRONT, GL_SHININESS, [100.0])
 
@@ -169,7 +169,7 @@ def draw_cube(size, color):
     glutSolidCube(1)
     glPopMatrix()
 
-# µe¾÷¾¹¤Hªº³¡¥ó
+# ç•«æ©Ÿå™¨äººçš„éƒ¨ä»¶
 def draw_body_part(part, position):
     glPushMatrix()
     glTranslatef(*position)
@@ -177,59 +177,48 @@ def draw_body_part(part, position):
     glPopMatrix()
 
 def draw_arm(side):
-    glPushMatrix()
-
     arm_offset = body_parts["torso"]["size"][0] / 2 + body_parts["upper_arm"]["size"][0] / 2
     # -1 for left, 1 for right
-    # ¤WÁu
+    # ä¸Šè‡‚
     upper_arm_pos = [arm_offset * side, body_parts["torso"]["size"][1] / 4, 0]
     draw_body_part("upper_arm", upper_arm_pos)
-    # ¤UÁu
+    # ä¸‹è‡‚
     lower_arm_pos = [arm_offset * side, -body_parts["upper_arm"]["size"][1] / 2, 0]
-    if(action_walk):
-        glRotatef(-10,1,0,0)  
-    if(action_run):
-        glRotatef(-70,1,0,0)  
     draw_body_part("lower_arm", lower_arm_pos)
-    glPopMatrix()
-
 
 def draw_leg(side):
-    glPushMatrix()
-
     leg_offset = body_parts["torso"]["size"][1] / 2 + body_parts["upper_leg"]["size"][1] / 2
     leg_distance = body_parts["torso"]["size"][0] / 4
     # -1 for left, 1 for right
-    # ¤j»L
+    # å¤§è…¿
     upper_leg_pos = [leg_distance * side, -leg_offset, 0]
     draw_body_part("upper_leg", upper_leg_pos)
-    # ¤p»L
+    # å°è…¿
     lower_leg_pos = [leg_distance * side, -leg_offset - body_parts["upper_leg"]["size"][1], 0]
-    if(action_walk):
-        glRotatef(5,1,0,0)  
-    if(action_run):
-        glRotatef(10,1,0,0)  
-
     draw_body_part("lower_leg", lower_leg_pos)
 
-    glPopMatrix()
-
-
-# µe¾÷¾¹¤H
+# ç•«æ©Ÿå™¨äºº
 def draw_robot():
     glPushMatrix()
-    if(action_walk):
-        glRotatef(5,1,0,0)  
-    if(action_run):
-        glRotatef(10,1,0,0) 
-    # µeÀY³¡
+
+    # ç•«é ­éƒ¨
     head_pos = [0, body_parts["torso"]["size"][1] / 2 + body_parts["head"]["size"][1] / 2, 0]
     draw_body_part("head", head_pos)
 
-    # µeÂß·F
+    # ç•«è»€å¹¹
     draw_body_part("torso", [0, 0, 0])
 
-    # µe²´·ú
+    # ç•«ä¸Šè‡‚å’Œä¸‹è‡‚
+    if(not action_walk and not action_run):
+        for side in [-1,1]:
+            draw_arm(side)        
+
+        # ç•«å¤§è…¿å’Œå°è…¿
+        for side in [-1,1]:
+            draw_leg(side)
+
+    
+    # ç•«çœ¼ç›
     eye_color = [1.0, 1.0, 1.0]
     eye_radius = 0.05
     eye_distance = 0.2
@@ -237,41 +226,34 @@ def draw_robot():
     draw_circle([head_pos[0] - eye_distance, eye_y_position,body_parts["head"]["size"][2] / 2+0.01], eye_radius, 32, eye_color)
     draw_circle([head_pos[0] + eye_distance, eye_y_position,body_parts["head"]["size"][2] / 2+0.01], eye_radius, 32, eye_color)
 
-    # µe¼L¤Ú
+    # ç•«å˜´å·´
     mouth_color = [1.0, 1.0, 1.0]
     mouth_size = 0.1
     mouth_y_position = head_pos[1] - 0.1
     draw_triangle([head_pos[0], mouth_y_position, body_parts["head"]["size"][2] / 2+0.01], mouth_size, mouth_color)
 
-    
-    # µe¤WÁu¡B¤UÁu¡B¤j»L¡B¤p»L
-    if(not action_walk and not action_run):
-        for side in [-1,1]:
-            draw_arm(side)        
-        for side in [-1,1]:
-            draw_leg(side)
 
     glPopMatrix()
     
 def draw_robot_walking():
-    # ¨«¸ô°Ê§@ªº°Ñ¼Æ
+    # èµ°è·¯å‹•ä½œçš„åƒæ•¸
     global walk_cycle, max_walk_cycle
-    leg_swing_angle = 30  # »L³¡Â\°Êªº³Ì¤j¨¤«×
-    arm_swing_angle = 20  # ¤âÁuÂ\°Êªº³Ì¤j¨¤«×
+    leg_swing_angle = 30  # è…¿éƒ¨æ“ºå‹•çš„æœ€å¤§è§’åº¦
+    arm_swing_angle = 20  # æ‰‹è‡‚æ“ºå‹•çš„æœ€å¤§è§’åº¦
        
-    # ®Ú¾Ú¨«¸ô©P´Á­pºâ»L³¡©M¤âÁuªºÂ\°Ê¨¤«×
+    # æ ¹æ“šèµ°è·¯å‘¨æœŸè¨ˆç®—è…¿éƒ¨å’Œæ‰‹è‡‚çš„æ“ºå‹•è§’åº¦
     leg_angle = leg_swing_angle * sin(walk_cycle * 2 * pi / max_walk_cycle)
     arm_angle = arm_swing_angle * sin(walk_cycle * 2 * pi / max_walk_cycle)
 
     glPushMatrix()
-    glRotatef(leg_angle, 1, 0, 0)  # ®Ú¾Ú­pºâ¥Xªº¨¤«×±ÛÂà¥ª»L
-    draw_leg(-1)  # ±zªº¨ç¼Æ¨ÓÃ¸»s¥ª»L
+    glRotatef(leg_angle, 1, 0, 0)  # æ ¹æ“šè¨ˆç®—å‡ºçš„è§’åº¦æ—‹è½‰å·¦è…¿
+    draw_leg(-1)  # æ‚¨çš„å‡½æ•¸ä¾†ç¹ªè£½å·¦è…¿
     glPopMatrix()
 
-    # §ó·s¥k»L - ¥i¯à»P¥ª»L¬Û¤ÏªºÂ\°Ê
+    # æ›´æ–°å³è…¿ - å¯èƒ½èˆ‡å·¦è…¿ç›¸åçš„æ“ºå‹•
     glPushMatrix()
-    glRotatef(-leg_angle, 1, 0, 0)  # ¬Û¤Ï¨¤«×
-    draw_leg(1)  # Ã¸»s¥k»L
+    glRotatef(-leg_angle, 1, 0, 0)  # ç›¸åè§’åº¦
+    draw_leg(1)  # ç¹ªè£½å³è…¿
     glPopMatrix()
 
     glPushMatrix()
@@ -286,45 +268,45 @@ def draw_robot_walking():
 
 
 def draw_robot_running():
-    # ¨«¸ô°Ê§@ªº°Ñ¼Æ
+    # èµ°è·¯å‹•ä½œçš„åƒæ•¸
     global run_cycle, max_run_cycle
-    leg_swing_angle = 45  # »L³¡??ªº¨¤«×
-    arm_swing_angle = 35  # ¤âÁu??ªº¨¤«×  
+    leg_swing_angle = 45  # è…¿éƒ¨??çš„è§’åº¦
+    arm_swing_angle = 35  # æ‰‹è‡‚??çš„è§’åº¦  
        
-    # ®Ú¾Ú¨«¸ô©P´Á­pºâ»L³¡©M¤âÁuªºÂ\°Ê¨¤«×
+    # æ ¹æ“šèµ°è·¯å‘¨æœŸè¨ˆç®—è…¿éƒ¨å’Œæ‰‹è‡‚çš„æ“ºå‹•è§’åº¦
     leg_angle = leg_swing_angle * sin(run_cycle * 2 * pi / max_run_cycle)
     arm_angle = arm_swing_angle * sin(run_cycle * 2 * pi / max_run_cycle)
 
     glPushMatrix()
-    glRotatef(leg_angle, 1, 0, 0)  # ®Ú¾Ú­pºâ¥Xªº¨¤«×±ÛÂà¥ª»L
-    draw_leg(-1)  # ±zªº¨ç¼Æ¨ÓÃ¸»s¥ª»L
+    glRotatef(leg_angle, 1, 0, 0)  # æ ¹æ“šè¨ˆç®—å‡ºçš„è§’åº¦æ—‹è½‰å·¦è…¿
+    draw_leg(-1)  # æ‚¨çš„å‡½æ•¸ä¾†ç¹ªè£½å·¦è…¿
     glPopMatrix()
 
-    # §ó·s¥k»L - ¥i¯à»P¥ª»L¬Û¤ÏªºÂ\°Ê
+    # æ›´æ–°å³è…¿ - å¯èƒ½èˆ‡å·¦è…¿ç›¸åçš„æ“ºå‹•
     glPushMatrix()
-    glRotatef(-leg_angle, 1, 0, 0)  # ¬Û¤Ï¨¤«×
-    draw_leg(1)  # Ã¸»s¥k»L
+    glRotatef(-leg_angle, 1, 0, 0)  # ç›¸åè§’åº¦
+    draw_leg(1)  # ç¹ªè£½å³è…¿
     glPopMatrix()
 
     glPushMatrix()
-    glRotatef(-arm_angle, 1, 0, 0)  # ®Ú¾Ú­pºâ¥Xªº¨¤«×±ÛÂà¥ª»L
-    draw_arm(-1)  # ±zªº¨ç¼Æ¨ÓÃ¸»s¥ª»L
+    glRotatef(-arm_angle, 1, 0, 0)  # æ ¹æ“šè¨ˆç®—å‡ºçš„è§’åº¦æ—‹è½‰å·¦è…¿
+    draw_arm(-1)  # æ‚¨çš„å‡½æ•¸ä¾†ç¹ªè£½å·¦è…¿
     glPopMatrix()
 
-    # §ó·s¥k»L - ¥i¯à»P¥ª»L¬Û¤ÏªºÂ\°Ê
+    # æ›´æ–°å³è…¿ - å¯èƒ½èˆ‡å·¦è…¿ç›¸åçš„æ“ºå‹•
     glPushMatrix()
-    glRotatef(arm_angle, 1, 0, 0)  # ¬Û¤Ï¨¤«×
-    draw_arm(1)  # Ã¸»s¥k»L
+    glRotatef(arm_angle, 1, 0, 0)  # ç›¸åè§’åº¦
+    draw_arm(1)  # ç¹ªè£½å³è…¿
     glPopMatrix()
 
-# ¥DÅã¥Ü¨ç¼Æ
+# ä¸»é¡¯ç¤ºå‡½æ•¸
 def display():
     global camera_pos, walk_cycle, max_walk_cycle,run_cycle,max_run_cycle
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT)
     glLoadIdentity()
     update_view()
 
-    # µe¾÷¾¹¤H
+    # ç•«æ©Ÿå™¨äºº
     
     if action_walk:
         draw_robot_walking()
@@ -344,22 +326,22 @@ def display():
     glutSwapBuffers()
 
 def reshape(width, height):
-    # ¨¾¤î°£¥H¹sªº¿ù»~
+    # é˜²æ­¢é™¤ä»¥é›¶çš„éŒ¯èª¤
     if height == 0:
         height = 1
 
-    # ³]©wµø¤f¤Ø¤o
+    # è¨­å®šè¦–å£å°ºå¯¸
     glViewport(0, 0, width, height)
 
-    # ¤Á´«¨ì§ë¼v¯x°}¼Ò¦¡¡A­«¸m§ë¼v¯x°}
+    # åˆ‡æ›åˆ°æŠ•å½±çŸ©é™£æ¨¡å¼ï¼Œé‡ç½®æŠ•å½±çŸ©é™£
     glMatrixMode(GL_PROJECTION)
     glLoadIdentity()
 
-    # ³]©w³zµø§ë¼v
+    # è¨­å®šé€è¦–æŠ•å½±
     aspect_ratio = width / height
     gluPerspective(45.0, aspect_ratio, 0.1, 100.0)
 
-    # ¤Á´«¦^¼Ò«¬µø¹Ï¯x°}¼Ò¦¡
+    # åˆ‡æ›å›æ¨¡å‹è¦–åœ–çŸ©é™£æ¨¡å¼
     glMatrixMode(GL_MODELVIEW)
     glLoadIdentity()
 
@@ -419,9 +401,9 @@ def create_menu():
     glutAttachMenu(GLUT_RIGHT_BUTTON)
 
 
-# ¥D¨ç¼Æ
+# ä¸»å‡½æ•¸
 init_glut()
-win = glutCreateWindow(b"S11059006")
+win = glutCreateWindow(b"OpenGL Robot")
 init_opengl()
 glutDisplayFunc(display)
 glutReshapeFunc(reshape)
